@@ -22,3 +22,8 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+Route::get('/verify-email', function () {
+    return Inertia::render('Auth/VerifyEmail');
+})->name('verification.notice');
+
+Route::get('index',);
