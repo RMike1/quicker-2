@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Level;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,9 +17,11 @@ class QuestionFactory extends Factory
      */
     public function definition(): array
     {
+        $levels=Level::pluck('id')->toArray();
         return [
             'question' => fake()->sentence(),
-            'marks' => fake()->numberBetween(1, 10)
+            'marks' => fake()->numberBetween(1, 10),
+            'level_id'=>fake()->randomElement($levels)
         ];
     }
 }

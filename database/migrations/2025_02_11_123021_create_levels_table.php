@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('levels', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('question');
-            $table->string('marks');
-            $table->string('image')->nullable();
-            $table->foreignUlid('level_id')->constrained()->cascadeOnDelete();
+            $table->string('level');
+            $table->string('total_questions')->nullable();
+            $table->foreignUlid('user_id')->constrained()->onDelete('restrict');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('levels');
     }
 };
