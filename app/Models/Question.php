@@ -20,6 +20,6 @@ class Question extends Model
     }
 
     public function level(){
-        return $this->hasMany(Level::class);
+        return $this->belongsTo(Level::class);
     }
 }

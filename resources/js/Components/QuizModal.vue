@@ -1,14 +1,17 @@
 <script setup>
 const props = defineProps({
-      show: Boolean
+      show: Boolean,
+      currentQuestion: Object
 })
 
 </script>
 <template>
-      <Transition name="modal">
-            <div v-if="show" 
+      <Transition name="bounce">
+            <div v-if="show"
                   class="fixed z-40 w-full modal-mask h-full overflow-y-auto bg-white border-t border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-800 transition-transform bottom-0 left-0 right-0">
-                  <div class="p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700" @click="$emit('closeQuizModal')">
+                  <!-- Header -->
+                  <div class="p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                        @click="$emit('closeQuizModal')">
                         <span
                               class="absolute w-8 h-1 -translate-x-1/2 bg-gray-300 rounded-lg top-3 left-1/2 dark:bg-gray-600"></span>
                         <h5 id="drawer-swipe-label"
@@ -20,6 +23,7 @@ const props = defineProps({
                               </svg>Back
                         </h5>
                   </div>
+                  <!-- Main -->
                   <section class="bg-white py-4 antialiased dark:bg-gray-900 md:py-8">
                         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
                               <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl md:mb-6">
@@ -108,10 +112,7 @@ const props = defineProps({
                                                       role="alert">
                                                       <h3
                                                             class="text-xl text-center font-semibold text-gray-900 dark:text-white">
-                                                            1. What you need to
-                                                            know
-                                                            so that the process of sending the
-                                                            product for service goes smoothly?</h3>
+                                                            1. {{currentQuestion.question}}?</h3>
 
                                                 </div>
                                           </div>
@@ -126,7 +127,7 @@ const props = defineProps({
                                                       <!--------------Answers--------->
                                                       <div
                                                             class="divide-y divide-gray-200 shadow-sm dark:divide-gray-700 ">
-                                                            <div
+                                                            <div v-for="(answer,i) in currentQuestion.answers" :key="i"
                                                                   class="flex items-center border border-gray-200 dark:border-gray-700 mb-2 p-4 sm:items-start rounded-lg lg:items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-800">
                                                                   <!-- <div>
                                  <input id="product1" type="checkbox" value=""
@@ -146,50 +147,15 @@ const props = defineProps({
                                     </a> -->
                                                                               <a href="#"
                                                                                     class="mt-4 font-medium text-gray-900  dark:text-white sm:mt-0">
-                                                                                    PC system All in One APPLE iMac
-                                                                                    (2023) mqrq3ro/a, Apple M3, 24"
-                                                                                    Retina
-                                                                                    4.5K, 8GB, SSD 256GB, 10-core GPU
+                                                                                    {{ answer.answer }}
                                                                               </a>
                                                                         </div>
-
                                                                         <div
                                                                               class="mt-4 flex shrink-0 flex-col gap-2 sm:flex-row sm:justify-between md:items-center xl:mt-0 xl:flex-col xl:items-start">
                                                                         </div>
                                                                   </div>
                                                             </div>
-                                                            <div
-                                                                  class="flex items-center border border-gray-200 dark:border-gray-700  p-4 sm:items-start rounded-lg lg:items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-800">
-                                                                  <!-- <div>
-                                 <input id="product1" type="checkbox" value=""
-                                    class="h-4 w-4 rounded border-gray-300 hidden bg-gray-100 text-primary-700 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                              </div> -->
-                                                                  <div
-                                                                        class="min-w-0 flex-1 gap-14 xl:flex xl:items-center">
-                                                                        <div
-                                                                              class="min-w-0 max-w-xl flex-1 gap-6 sm:flex sm:items-center">
-                                                                              <!-- <a href="#" class="mb-4 flex aspect-square h-14 w-14 shrink-0 items-center sm:mb-0">
-                                       <img class="h-auto max-h-full w-full dark:hidden"
-                                          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-                                          alt="imac image" />
-                                       <img class="hidden h-auto max-h-full w-full dark:block"
-                                          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                                          alt="imac image" />
-                                    </a> -->
-                                                                              <a href="#"
-                                                                                    class="mt-4 font-medium text-gray-900  dark:text-white sm:mt-0">
-                                                                                    PC system All in One APPLE iMac
-                                                                                    (2023) mqrq3ro/a, Apple M3, 24"
-                                                                                    Retina
-                                                                                    4.5K, 8GB, SSD 256GB, 10-core GPU
-                                                                              </a>
-                                                                        </div>
-
-                                                                        <div
-                                                                              class="mt-4 flex shrink-0 flex-col gap-2 sm:flex-row sm:justify-between md:items-center xl:mt-0 xl:flex-col xl:items-start">
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
+                                                            
                                                       </div>
                                                 </div>
                                                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
@@ -207,54 +173,26 @@ const props = defineProps({
       </Transition>
 </template>
 
-<!-- fixed z-40  -->
-// <!-- <style>
-// .modal-mask {     
-//       position: fixed;
-//       z-index: 9998;
-//       top: 0;
-//       left: 0;
-//       width: 100%;
-//       height: 100%;
-//       background-color: rgba(0, 0, 0, 0.5);
-//       display: flex;
-//       transition: opacity 0.3s ease;
-// }
+<style scoped>
+.bounce-enter-active {
+      animation: bounce-in 0.4s;
+}
 
-// .modal-container {
-//       width: 300px;
-//       margin: auto;
-//       padding: 20px 30px;
-//       background-color: #fff;
-//       border-radius: 2px;
-//       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-//       transition: all 0.3s ease;
-// }
+.bounce-leave-active {
+      animation: bounce-in 0.4s reverse;
+}
 
-// .modal-header h3 {
-//       margin-top: 0;
-//       color: #42b983;
-// }
+@keyframes bounce-in {
+      0% {
+            transform: scale(0);
+      }
 
-// .modal-body {
-//       margin: 20px 0;
-// }
+      50% {
+            transform: scale(1.1);
+      }
 
-// .modal-default-button {
-//       float: right;
-// }
-
-// .modal-enter-from {
-//       opacity: 0;
-// }
-
-// .modal-leave-to {
-//       opacity: 0;
-// }
-
-// .modal-enter-from .modal-container,
-// .modal-leave-to .modal-container {
-//       -webkit-transform: scale(1.1);
-//       transform: scale(1.1);
-// }
-// </style> -->
+      100% {
+            transform: scale(1);
+      }
+}
+</style>
