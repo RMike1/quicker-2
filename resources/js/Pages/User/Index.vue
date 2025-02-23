@@ -9,9 +9,17 @@ const currentQuestionValue=ref(0);
 const currentLevel=computed(()=>{
    return props.level[currentLevelValue.value]
 });
+
 const currentQuestion=computed(()=>{
    return props.level[currentLevelValue.value].questions[currentQuestionValue.value]
 });
+const nextQuestion = () =>{
+   currentQuestionValue.value++
+}
+const previousQuestion = () =>{
+   currentQuestionValue.value--
+}
+
 const showModal = ref(false);
 const showQuizSection = () => {
    showModal.value = true;
@@ -84,7 +92,7 @@ onBeforeUnmount(() => {
    </section>
    <!-- quiz section -->
    <Teleport to="body">
-      <QuizModal :show="showModal" @closeQuizModal="showModal = false" :currentQuestion="currentQuestion">
+      <QuizModal :show="showModal" @closeQuizModal="showModal = false" :currentQuestion="currentQuestion" @nextQuestion="nextQuestion" @previousQuestion="previousQuestion">
       </QuizModal>
    </Teleport>
 </template>

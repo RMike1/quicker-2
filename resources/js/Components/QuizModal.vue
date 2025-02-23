@@ -1,4 +1,5 @@
 <script setup>
+import Button from '@/Components/Button.vue'
 const props = defineProps({
       show: Boolean,
       currentQuestion: Object
@@ -126,7 +127,7 @@ const props = defineProps({
                                                       </div>
                                                       <!--------------Answers--------->
                                                       <div
-                                                            class="divide-y divide-gray-200 shadow-sm dark:divide-gray-700 ">
+                                                            class="w-full divide-y divide-gray-200 shadow-sm dark:divide-gray-700 ">
                                                             <div v-for="(answer,i) in currentQuestion.answers" :key="i"
                                                                   class="flex items-center border border-gray-200 dark:border-gray-700 mb-2 p-4 sm:items-start rounded-lg lg:items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-800">
                                                                   <!-- <div>
@@ -159,10 +160,9 @@ const props = defineProps({
                                                       </div>
                                                 </div>
                                                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
-                                                      <button type="button"
-                                                            class="w-full rounded-lg  border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">Cancel</button>
-                                                      <button type="submit"
-                                                            class="mt-4 flex w-full items-center justify-center rounded-lg border border-primary-700 bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:border-primary-800 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:border-primary-700 dark:bg-primary-600 dark:hover:border-primary-700 dark:hover:bg-primary-700 dark:focus:ring-primary-800  sm:mt-0 sm:w-auto">Next</button>
+                                                      
+                                                      <Button @click="$emit('previousQuestion')" >Previous</Button>
+                                                      <Button @click="$emit('nextQuestion')" >Next</Button>
                                                 </div>
                                           </div>
                                     </form>
