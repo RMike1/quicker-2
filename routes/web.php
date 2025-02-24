@@ -14,4 +14,4 @@ Route::get('/verify-email', function () {
     return Inertia::render('Auth/VerifyEmail');
 })->name('verification.notice');
 
-// Route::get('index',);
+Route::post('submit/answer',[HomeController::class,'storeAnswer'])->name('submit.answer');

@@ -6,18 +6,24 @@ const props = defineProps({
 });
 const currentLevelValue=ref(0);
 const currentQuestionValue=ref(0);
-const currentLevel=computed(()=>{
-   return props.level[currentLevelValue.value]
-});
 
 const currentQuestion=computed(()=>{
    return props.level[currentLevelValue.value].questions[currentQuestionValue.value]
 });
+const currentLevelTotalQuestions=computed(()=>{
+   return props.level[currentLevelValue.value].questions_count
+});
+const currentIndex=computed(()=>{
+   return currentQuestionValue.value
+})
 const nextQuestion = () =>{
    currentQuestionValue.value++
 }
 const previousQuestion = () =>{
    currentQuestionValue.value--
+}
+const selectedAnswer = (i) =>{
+   // alert(i);
 }
 
 const showModal = ref(false);
@@ -30,7 +36,6 @@ const handleKeyUp = (event) => {
    }
 };
 onMounted(() => {
-   console.log(currentQuestion.value);
    window.addEventListener('keyup', handleKeyUp);
 });
 
@@ -92,7 +97,7 @@ onBeforeUnmount(() => {
    </section>
    <!-- quiz section -->
    <Teleport to="body">
-      <QuizModal :show="showModal" @closeQuizModal="showModal = false" :currentQuestion="currentQuestion" @nextQuestion="nextQuestion" @previousQuestion="previousQuestion">
+      <QuizModal :show="showModal" @closeQuizModal="showModal = false" :currentQuestion="currentQuestion" :currentLevelTotalQuestions="currentLevelTotalQuestions" :currentIndex="currentIndex" @nextQuestion="nextQuestion" @previousQuestion="previousQuestion" @selectedAnswer="selectedAnswer">
       </QuizModal>
    </Teleport>
 </template>

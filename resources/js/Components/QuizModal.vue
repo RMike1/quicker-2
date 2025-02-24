@@ -1,9 +1,25 @@
 <script setup>
-import Button from '@/Components/Button.vue'
+import PriButton from '@/Components/PriButton.vue'
+import Checkbox from '@/Components/Checkbox.vue'
+import { defineEmits } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 const props = defineProps({
       show: Boolean,
-      currentQuestion: Object
-})
+      currentQuestion: Object,
+      currentLevelTotalQuestions: Number,
+      currentIndex: Number
+});
+const emit = defineEmits(['selectedAnswer', 'nextQuestion', 'previousQuestion', 'closeQuizModal']);
+const selectedAnswer = (index) => {
+      emit('selectedAnswer', index);
+}
+const form = useForm({
+      answer: null
+});
+const submit = () => {
+      form.post(route('submit.answer'), {
+      })
+}
 
 </script>
 <template>
@@ -31,89 +47,77 @@ const props = defineProps({
                                     Quiz Section</h2>
                               <div class="gap-8 lg:flex">
                                     <!-- Right content -->
-                                    <form action="#" class="w-full space-y-4 lg:space-y-4">
+                                    <form @submit.prevent="submit" class="w-full space-y-4 lg:space-y-4">
                                           <div class="">
                                                 <ol
-                                                      class="flex flex-col gap-4 rounded-t-lg border-b  border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sm:justify-center md:flex-row md:items-center lg:gap-6">
-                                                      <li
-                                                            class="flex items-center gap-2 md:flex-1 md:flex-col md:gap-1.5 lg:flex-none">
-                                                            <svg class="h-5 w-5 text-primary-700 dark:text-primary-500"
-                                                                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                  width="24" height="24" fill="none"
-                                                                  viewBox="0 0 24 24">
-                                                                  <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                            </svg>
-                                                            <p
-                                                                  class="text-sm font-medium leading-tight text-primary-700 dark:text-primary-500">
-                                                                  My products</p>
-                                                      </li>
+                                                      class="flex flex-col gap-4  rounded-t-lg border-b  border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 sm:justify-center md:flex-row md:items-center lg:gap-6">
 
-                                                      <div
-                                                            class="hidden h-px w-8 shrink-0 bg-gray-200 dark:bg-gray-700 md:block xl:w-16">
-                                                      </div>
-
-                                                      <li
-                                                            class="flex items-center gap-2 md:flex-1 md:flex-col md:gap-1.5 lg:flex-none">
-                                                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                                                                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                  width="24" height="24" fill="none"
-                                                                  viewBox="0 0 24 24">
-                                                                  <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                            </svg>
-                                                            <p
-                                                                  class="text-sm font-medium leading-tight text-gray-500 dark:text-gray-400">
-                                                                  Defect
-                                                                  reason</p>
-                                                      </li>
-
-                                                      <div
-                                                            class="hidden h-px w-8 shrink-0 bg-gray-200 dark:bg-gray-700 md:block xl:w-16">
-                                                      </div>
-
-                                                      <li
-                                                            class="flex items-center gap-2 md:flex-1 md:flex-col md:gap-1.5 lg:flex-none">
-                                                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                                                                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                  width="24" height="24" fill="none"
-                                                                  viewBox="0 0 24 24">
-                                                                  <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                            </svg>
-                                                            <p
-                                                                  class="text-sm font-medium leading-tight text-gray-500 dark:text-gray-400">
-                                                                  Select
-                                                                  date</p>
-                                                      </li>
-
-                                                      <div
-                                                            class="hidden h-px w-8 shrink-0 bg-gray-200 dark:bg-gray-700 md:block xl:w-16">
-                                                      </div>
-
-                                                      <li
-                                                            class="flex items-center gap-2 md:flex-1 md:flex-col md:gap-1.5 lg:flex-none">
-                                                            <svg class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                                                                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                                  width="24" height="24" fill="none"
-                                                                  viewBox="0 0 24 24">
-                                                                  <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                            </svg>
-                                                            <p
-                                                                  class="text-sm font-medium leading-tight text-gray-500 dark:text-gray-400">
-                                                                  Confirmation</p>
+                                                      <li v-for="(question, i) in currentLevelTotalQuestions" :key="i"
+                                                      class="flex md:w-full gap-2 items-center text-gray-200 dark:text-gray-500 sm:after:content-[''] after:hidden"
+                                                      :class="{ 'after:w-full after:h-1 sm:after:inline-block after:mx-6 xl:after:mx-auto after:border-b after:border-gray-200 after:border-1  dark:after:border-gray-700': i + 1 < currentLevelTotalQuestions}">
+                                                            <span
+                                                                  class="flex items-center after:content-['/'] sm:after:hidden after:mx-auto">
+                                                                  <!-- <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" -->
+                                                                  <!-- <svg class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path 
+                                                                              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                                                  </svg> -->
+                                                                  <svg class="h-6 w-6  sm:w-6 sm:h-6 me-2.5"
+                                                                        :class="{'h-8 w-8 sm:w-8 sm:h-8 text-gray-400 dark:text-gray-100': i === currentIndex }"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24" fill="none" viewBox="0 0 24 24">
+                                                                        <path stroke="currentColor"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round" stroke-width="2"
+                                                                              d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                  </svg>
+                                                                  <span :class="{'text-2xl text-white dark:text-gray-100' : i === currentIndex }">
+                                                                        {{ i + 1 }}
+                                                                  </span>
+                                                            </span>
                                                       </li>
                                                 </ol>
+
+                                                <!-- <ol
+                                                      class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                                                      <li
+                                                            class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                                                            <span
+                                                                  class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                                                                  <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path
+                                                                              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                                                  </svg>
+                                                                  Personal <span
+                                                                        class="hidden sm:inline-flex sm:ms-2">Info</span>
+                                                            </span>
+                                                      </li>
+                                                      <li
+                                                            class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                                                            <span
+                                                                  class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                                                                  <span class="me-2">2</span>
+                                                                  Account
+                                                            </span>
+                                                      </li>
+                                                      <li class="flex items-center">
+                                                            <span class="me-2">3</span>
+                                                            Confirmation
+                                                      </li>
+                                                </ol> -->
+
                                                 <div class="mb-4 bg-primary-50 p-4 text-sm text-primary-800 dark:bg-gray-800 dark:text-primary-400 sm:text-base"
                                                       role="alert">
                                                       <h3
-                                                            class="text-xl text-center font-semibold text-gray-900 dark:text-white">
-                                                            1. {{currentQuestion.question}}?</h3>
+                                                            class="text-3xl text-center font-semibold text-gray-900 dark:text-white">
+                                                            {{ currentIndex + 1 }}. {{ currentQuestion.question }}?</h3>
 
                                                 </div>
                                           </div>
@@ -128,41 +132,49 @@ const props = defineProps({
                                                       <!--------------Answers--------->
                                                       <div
                                                             class="w-full divide-y divide-gray-200 shadow-sm dark:divide-gray-700 ">
-                                                            <div v-for="(answer,i) in currentQuestion.answers" :key="i"
-                                                                  class="flex items-center border border-gray-200 dark:border-gray-700 mb-2 p-4 sm:items-start rounded-lg lg:items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-800">
-                                                                  <!-- <div>
-                                 <input id="product1" type="checkbox" value=""
-                                    class="h-4 w-4 rounded border-gray-300 hidden bg-gray-100 text-primary-700 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
-                              </div> -->
+                                                            <div v-for="(answer, i) in currentQuestion.answers" :key="i"
+                                                                  @click="selectedAnswer(i)"
+                                                                  class="flex gap-2 cursor-pointer items-center border border-gray-200 dark:border-gray-700 mb-2 p-4 sm:items-start rounded-lg lg:items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-800">
+                                                                  <div>
+                                                                        <input id="product1" type="radio" value=""
+                                                                              class="h-6 w-6 rounded border-gray-300  bg-gray-100 text-primary-700 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                                                                  </div>
                                                                   <div
-                                                                        class="min-w-0 flex-1 gap-14 xl:flex xl:items-center">
+                                                                        class="min-w-0 flex-1 gap-14 xl:flex xl:items-center justify-between">
                                                                         <div
                                                                               class="min-w-0 max-w-xl flex-1 gap-6 sm:flex sm:items-center">
-                                                                              <!-- <a href="#" class="mb-4 flex aspect-square h-14 w-14 shrink-0 items-center sm:mb-0">
-                                       <img class="h-auto max-h-full w-full dark:hidden"
-                                          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-                                          alt="imac image" />
-                                       <img class="hidden h-auto max-h-full w-full dark:block"
-                                          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                                          alt="imac image" />
-                                    </a> -->
-                                                                              <a href="#"
+                                                                              <button type="button"
                                                                                     class="mt-4 font-medium text-gray-900  dark:text-white sm:mt-0">
                                                                                     {{ answer.answer }}
-                                                                              </a>
+                                                                              </button>
                                                                         </div>
-                                                                        <div
-                                                                              class="mt-4 flex shrink-0 flex-col gap-2 sm:flex-row sm:justify-between md:items-center xl:mt-0 xl:flex-col xl:items-start">
-                                                                        </div>
+                                                                        <!-- Tick -->
+                                                                        <!-- <div class="text-green-700">
+                                                                              <svg class="w-4 h-4" aria-hidden="true"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    fill="none" viewBox="0 0 16 12">
+                                                                                    <path stroke="currentColor"
+                                                                                          stroke-linecap="round"
+                                                                                          stroke-linejoin="round"
+                                                                                          stroke-width="2"
+                                                                                          d="M1 5.917 5.724 10.5 15 1.5" />
+                                                                              </svg>
+                                                                        </div> -->
                                                                   </div>
                                                             </div>
-                                                            
+
                                                       </div>
                                                 </div>
                                                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
-                                                      
-                                                      <Button @click="$emit('previousQuestion')" >Previous</Button>
-                                                      <Button @click="$emit('nextQuestion')" >Next</Button>
+                                                      <PriButton v-if="currentIndex >= 1"
+                                                            @click="$emit('previousQuestion')" :label="'Previous'" />
+                                                      <PriButton v-if="currentIndex + 1 < currentLevelTotalQuestions"
+                                                            @click="$emit('nextQuestion')" :label="'Next'" />
+                                                      <PriButton type="submit"
+                                                            v-if="currentIndex + 1 === currentLevelTotalQuestions"
+                                                            :disabled="form.processing"
+                                                            :class="{ 'bg-green-600/25': currentIndex + 1 === currentLevelTotalQuestions }"
+                                                            :label="form.processing ? '...' : 'Submit'" />
                                                 </div>
                                           </div>
                                     </form>
