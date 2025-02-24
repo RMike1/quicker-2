@@ -57,7 +57,7 @@ const submit = () => {
                                                       :class="{ 'after:w-full after:h-1 sm:after:inline-block after:mx-6 xl:after:mx-auto after:border-b after:border-gray-200 after:border-1  dark:after:border-gray-700': i + 1 < currentLevelTotalQuestions}">
                                                             <span
                                                                   class="flex items-center after:content-['/'] sm:after:hidden after:mx-auto">
-                                                                  <!-- <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" -->
+                                                                  
                                                                   <!-- <svg class="h-5 w-5 text-gray-500 dark:text-gray-400"
                                                                         aria-hidden="true"
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +166,8 @@ const submit = () => {
                                                       </div>
                                                 </div>
                                                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
-                                                      <PriButton v-if="currentIndex >= 1"
+                                                      <PriButton :disabled="currentIndex === 0"
+                                                            :class="{'bg-transparent border border-zinc-700 dark:border-zinc-700 text-zinc-700': currentIndex === 0}"
                                                             @click="$emit('previousQuestion')" :label="'Previous'" />
                                                       <PriButton v-if="currentIndex + 1 < currentLevelTotalQuestions"
                                                             @click="$emit('nextQuestion')" :label="'Next'" />
