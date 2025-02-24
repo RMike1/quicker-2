@@ -4,12 +4,14 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 const props = defineProps({
    'level':Object
 });
-const currentLevelValue=ref(0);
+const currentLevelValue=ref(1);
 const currentQuestionValue=ref(0);
+const answersValue=ref(0);
 
 const currentQuestion=computed(()=>{
    return props.level[currentLevelValue.value].questions[currentQuestionValue.value]
 });
+
 const currentLevelTotalQuestions=computed(()=>{
    return props.level[currentLevelValue.value].questions_count
 });
@@ -22,8 +24,13 @@ const nextQuestion = () =>{
 const previousQuestion = () =>{
    currentQuestionValue.value--
 }
+const result = ref(0);
 const selectedAnswer = (i) =>{
-   // alert(i);
+   if(currentQuestion.value.answers[i].is_correct===1){
+      result.value = result.value + Number(currentQuestion.value.marks)
+   }
+   // console.log(currentQuestion.value.answers[i]);
+   console.log(result.value);
 }
 
 const showModal = ref(false);
