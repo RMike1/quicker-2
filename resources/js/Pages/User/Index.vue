@@ -4,7 +4,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 const props = defineProps({
    'level':Object
 });
-const currentLevelValue=ref(1);
+const currentLevelValue=ref(0);
 const currentQuestionValue=ref(0);
 const answersValue=ref(0);
 
